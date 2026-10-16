@@ -20,6 +20,7 @@
     --radius: 14px;
     --shadow: 0 2px 12px rgba(2, 132, 199, 0.10);
     --shadow-hover: 0 6px 24px rgba(2, 132, 199, 0.18);
+    --tg: #229ED9;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,7 +33,6 @@
     padding-bottom: 60px;
   }
 
-  /* ── Шапка ── */
   header {
     background: linear-gradient(135deg, var(--blue-500), var(--blue-600));
     color: var(--white);
@@ -65,17 +65,9 @@
     position: relative;
     z-index: 1;
   }
-  .header-title h1 {
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    line-height: 1.2;
-  }
-  .header-title p {
-    font-size: 0.8rem;
-    opacity: 0.8;
-    margin-top: 2px;
-  }
+  .header-title h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.3px; line-height: 1.2; }
+  .header-title p { font-size: 0.8rem; opacity: 0.8; margin-top: 2px; }
+  .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
   .btn-new {
     background: var(--white);
     color: var(--blue-600);
@@ -94,24 +86,32 @@
   }
   .btn-new:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
   .btn-new:active { transform: scale(0.97); }
-
-  /* ── Контейнер ── */
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 20px 16px 0;
+  .btn-tg-header {
+    background: rgba(255,255,255,0.15);
+    color: var(--white);
+    border: 1.5px solid rgba(255,255,255,0.4);
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+    font-family: inherit;
   }
+  .btn-tg-header:hover { background: rgba(255,255,255,0.25); }
 
-  /* ── Статистика ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 20px 16px 0; }
+
   .stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     margin-bottom: 20px;
   }
-  @media (max-width: 560px) {
-    .stats { grid-template-columns: repeat(2, 1fr); }
-  }
+  @media (max-width: 560px) { .stats { grid-template-columns: repeat(2, 1fr); } }
   .stat-card {
     background: var(--white);
     border-radius: var(--radius);
@@ -126,25 +126,16 @@
   .stat-card:nth-child(3) { animation-delay: 0.09s; }
   .stat-card:nth-child(4) { animation-delay: 0.12s; }
   .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
-  .stat-card .num {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--blue-500);
-    line-height: 1.1;
-  }
+  .stat-card .num { font-size: 1.5rem; font-weight: 800; color: var(--blue-500); line-height: 1.1; }
   .stat-card .label {
-    font-size: 0.7rem;
-    color: var(--muted);
-    margin-top: 2px;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
+    font-size: 0.7rem; color: var(--muted); margin-top: 2px;
+    text-transform: uppercase; letter-spacing: 0.4px;
   }
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* ── Панель управления списком ── */
   .toolbar {
     display: flex;
     align-items: center;
@@ -165,7 +156,7 @@
     transition: border-color 0.2s, box-shadow 0.2s;
   }
   .search-box:focus { border-color: var(--blue-300); box-shadow: 0 0 0 3px rgba(56,189,248,0.15); }
-  .toolbar-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+  .toolbar-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 
   .icon-btn {
     width: 38px; height: 38px;
@@ -182,14 +173,28 @@
     font-family: inherit;
   }
   .icon-btn:hover { background: var(--blue-50); border-color: var(--blue-300); }
+  .icon-btn.tg { color: var(--tg); border-color: #bfe6f5; }
+  .icon-btn.tg:hover { background: #e6f6fb; border-color: var(--tg); }
 
-  /* ── Фильтры ── */
-  .filters {
-    display: flex;
-    flex-wrap: wrap;
+  .autotg {
+    display: inline-flex;
+    align-items: center;
     gap: 6px;
-    margin-bottom: 16px;
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--blue-100);
+    background: var(--white);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s;
   }
+  .autotg input { accent-color: var(--tg); cursor: pointer; }
+  .autotg.on { border-color: var(--tg); color: var(--tg); background: #f0fafd; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
   .filter-btn {
     padding: 6px 14px;
     border-radius: 18px;
@@ -209,14 +214,8 @@
     border-color: transparent;
     box-shadow: 0 3px 10px rgba(2, 132, 199, 0.28);
   }
-  .filter-btn .cnt {
-    display: inline-block;
-    margin-left: 4px;
-    opacity: 0.75;
-    font-weight: 700;
-  }
+  .filter-btn .cnt { display: inline-block; margin-left: 4px; opacity: 0.75; font-weight: 700; }
 
-  /* ── Список задач ── */
   .task-list { display: flex; flex-direction: column; gap: 10px; }
 
   .task-card {
@@ -232,9 +231,7 @@
     gap: 12px;
     align-items: start;
   }
-  @media (max-width: 640px) {
-    .task-card { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 640px) { .task-card { grid-template-columns: 1fr; } }
   .task-card:hover { box-shadow: var(--shadow-hover); }
   .task-card.status-pending   { border-left-color: #f59e0b; }
   .task-card.status-transit   { border-left-color: var(--blue-400); }
@@ -246,77 +243,51 @@
 
   .task-main { min-width: 0; }
   .task-address {
-    font-weight: 700;
-    font-size: 0.98rem;
-    color: var(--blue-700);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    line-height: 1.3;
+    font-weight: 700; font-size: 0.98rem; color: var(--blue-700);
+    display: flex; align-items: center; gap: 6px; line-height: 1.3;
     word-break: break-word;
   }
   .task-payload {
-    font-size: 0.86rem;
-    color: var(--text);
-    margin-top: 4px;
-    line-height: 1.4;
-    word-break: break-word;
+    font-size: 0.86rem; color: var(--text); margin-top: 4px;
+    line-height: 1.4; word-break: break-word;
   }
   .task-comment {
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-top: 3px;
-    font-style: italic;
-    word-break: break-word;
+    font-size: 0.8rem; color: var(--muted); margin-top: 3px;
+    font-style: italic; word-break: break-word;
   }
   .task-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 8px;
-    font-size: 0.75rem;
-    color: var(--muted);
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 8px; font-size: 0.75rem; color: var(--muted);
     align-items: center;
   }
   .pill {
-    background: var(--blue-50);
-    padding: 3px 10px;
-    border-radius: 12px;
-    font-weight: 600;
-    color: var(--blue-600);
-    white-space: nowrap;
+    background: var(--blue-50); padding: 3px 10px; border-radius: 12px;
+    font-weight: 600; color: var(--blue-600); white-space: nowrap;
   }
   .pill.priority-high { background: #fef2f2; color: #dc2626; }
   .pill.priority-med  { background: #fffbeb; color: #d97706; }
   .pill.priority-low  { background: #f0fdf4; color: #16a34a; }
+  .pill.sent { background: #e6f6fb; color: var(--tg); }
 
   .task-photo {
-    margin-top: 8px;
-    border-radius: 8px;
-    overflow: hidden;
-    max-width: 120px;
-    cursor: pointer;
+    margin-top: 8px; border-radius: 8px; overflow: hidden;
+    max-width: 120px; cursor: pointer;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
   .task-photo img { width: 100%; display: block; }
 
   .task-side {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
+    display: flex; flex-direction: column;
+    align-items: flex-end; gap: 8px;
   }
   @media (max-width: 640px) {
     .task-side { flex-direction: row; align-items: center; flex-wrap: wrap; }
   }
 
   .task-status-badge {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
+    padding: 4px 12px; border-radius: 20px;
+    font-size: 0.7rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.3px;
     white-space: nowrap;
   }
   .status-pending   .task-status-badge { background: #fef3c7; color: #b45309; }
@@ -328,27 +299,14 @@
   }
 
   .task-actions {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
+    display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end;
   }
-  @media (max-width: 640px) {
-    .task-actions { justify-content: flex-start; }
-  }
+  @media (max-width: 640px) { .task-actions { justify-content: flex-start; } }
 
-  /* ── Кнопки ── */
   .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 9px 18px;
-    border: none;
-    border-radius: 10px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 6px; padding: 9px 18px; border: none; border-radius: 10px;
+    font-size: 0.85rem; font-weight: 600; cursor: pointer;
     transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
     font-family: inherit;
   }
@@ -360,9 +318,7 @@
   }
   .btn-primary:hover { box-shadow: 0 6px 20px rgba(2, 132, 199, 0.42); transform: translateY(-1px); }
   .btn-outline {
-    background: var(--white);
-    border: 1.5px solid var(--blue-200);
-    color: var(--blue-600);
+    background: var(--white); border: 1.5px solid var(--blue-200); color: var(--blue-600);
   }
   .btn-outline:hover { background: var(--blue-50); border-color: var(--blue-300); }
   .btn-sm { padding: 6px 12px; font-size: 0.76rem; border-radius: 8px; }
@@ -370,123 +326,78 @@
   .btn-danger:hover { background: #fee2e2; }
   .btn-success { background: #f0fdf4; color: #16a34a; border: 1.5px solid #bbf7d0; }
   .btn-success:hover { background: #dcfce7; }
+  .btn-tg {
+    background: #e6f6fb; color: var(--tg); border: 1.5px solid #bfe6f5;
+  }
+  .btn-tg:hover { background: #d0f0f9; }
 
-  /* ── График ── */
   .chart-section { margin-top: 22px; }
   .section-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--blue-600);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    font-size: 1rem; font-weight: 700; color: var(--blue-600);
+    margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
   }
   .chart-wrap {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 20px 16px 10px;
-    box-shadow: var(--shadow);
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-around;
-    height: 160px;
-    gap: 8px;
+    background: var(--white); border-radius: var(--radius);
+    padding: 20px 16px 10px; box-shadow: var(--shadow);
+    display: flex; align-items: flex-end; justify-content: space-around;
+    height: 160px; gap: 8px;
   }
   .bar-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    height: 100%;
-    justify-content: flex-end;
-    gap: 5px;
+    display: flex; flex-direction: column; align-items: center;
+    flex: 1; height: 100%; justify-content: flex-end; gap: 5px;
   }
   .bar {
-    width: 100%;
-    max-width: 44px;
+    width: 100%; max-width: 44px;
     background: linear-gradient(180deg, var(--blue-300), var(--blue-500));
     border-radius: 7px 7px 3px 3px;
     transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    min-height: 3px;
-    position: relative;
+    min-height: 3px; position: relative;
   }
   .bar:hover { background: linear-gradient(180deg, var(--blue-400), var(--blue-600)); }
   .bar .count {
-    position: absolute;
-    top: -18px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: var(--blue-600);
+    position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+    font-size: 0.72rem; font-weight: 700; color: var(--blue-600);
   }
   .bar-label {
-    font-size: 0.68rem;
-    color: var(--muted);
-    text-align: center;
-    white-space: nowrap;
+    font-size: 0.68rem; color: var(--muted);
+    text-align: center; white-space: nowrap;
   }
 
-  /* ── Пустое состояние ── */
   .empty {
-    text-align: center;
-    padding: 56px 16px;
-    color: var(--muted);
-    font-size: 0.9rem;
-    background: var(--white);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
+    text-align: center; padding: 56px 16px; color: var(--muted);
+    font-size: 0.9rem; background: var(--white);
+    border-radius: var(--radius); box-shadow: var(--shadow);
   }
   .empty .icon { font-size: 2.6rem; margin-bottom: 10px; display: block; opacity: 0.45; }
   .empty .hint { font-size: 0.8rem; margin-top: 6px; opacity: 0.75; }
 
-  /* ── Модалка ── */
   .modal-overlay {
     position: fixed; inset: 0;
     background: rgba(15,23,42,0.5);
     backdrop-filter: blur(4px);
     display: flex; align-items: center; justify-content: center;
-    z-index: 1000;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.25s;
-    padding: 16px;
+    z-index: 1000; opacity: 0; pointer-events: none;
+    transition: opacity 0.25s; padding: 16px;
   }
   .modal-overlay.open { opacity: 1; pointer-events: auto; }
   .modal {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 22px;
-    max-width: 520px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
+    background: var(--white); border-radius: var(--radius);
+    padding: 22px; max-width: 520px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
     box-shadow: 0 20px 60px rgba(0,0,0,0.25);
     transform: scale(0.94);
     transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
   }
   .modal-overlay.open .modal { transform: scale(1); }
   .modal-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 16px;
   }
-  .modal-head h3 {
-    color: var(--blue-600);
-    font-size: 1.05rem;
-    font-weight: 700;
-  }
+  .modal-head h3 { color: var(--blue-600); font-size: 1.05rem; font-weight: 700; }
   .modal-close {
-    background: none;
-    border: none;
-    font-size: 1.3rem;
-    color: var(--muted);
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 8px;
-    transition: background 0.2s;
-    line-height: 1;
+    background: none; border: none; font-size: 1.3rem;
+    color: var(--muted); cursor: pointer; padding: 4px 8px;
+    border-radius: 8px; transition: background 0.2s; line-height: 1;
   }
   .modal-close:hover { background: var(--blue-50); color: var(--blue-600); }
 
@@ -495,34 +406,23 @@
     max-height: 300px; object-fit: contain; background: var(--blue-50);
   }
 
-  /* ── Форма ── */
   .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 12px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-bottom: 12px;
   }
   @media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
   .form-group label {
-    display: block;
-    font-size: 0.76rem;
-    font-weight: 600;
-    color: var(--blue-600);
-    margin-bottom: 4px;
+    display: block; font-size: 0.76rem; font-weight: 600;
+    color: var(--blue-600); margin-bottom: 4px;
   }
   .form-group input,
   .form-group select,
   .form-group textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1.5px solid var(--blue-100);
-    border-radius: 10px;
-    font-size: 0.88rem;
-    font-family: inherit;
-    background: #f8fbff;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-    color: var(--text);
+    width: 100%; padding: 10px 12px;
+    border: 1.5px solid var(--blue-100); border-radius: 10px;
+    font-size: 0.88rem; font-family: inherit;
+    background: #f8fbff; transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none; color: var(--text);
   }
   .form-group input:focus,
   .form-group select:focus,
@@ -534,31 +434,24 @@
   .form-group textarea { resize: vertical; min-height: 56px; }
   .full { grid-column: 1 / -1; }
   .modal-actions {
-    display: flex;
-    gap: 8px;
-    justify-content: flex-end;
-    margin-top: 16px;
+    display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;
   }
 
-  /* ── Тост ── */
   .toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
+    position: fixed; bottom: 24px; left: 50%;
     transform: translateX(-50%) translateY(80px);
-    background: var(--blue-600);
-    color: var(--white);
-    padding: 10px 22px;
-    border-radius: 12px;
-    font-size: 0.85rem;
-    font-weight: 600;
+    background: var(--blue-600); color: var(--white);
+    padding: 10px 22px; border-radius: 12px;
+    font-size: 0.85rem; font-weight: 600;
     box-shadow: 0 8px 24px rgba(2,132,199,0.4);
     opacity: 0;
     transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
-    z-index: 2000;
-    pointer-events: none;
+    z-index: 2000; pointer-events: none;
+    max-width: 90vw; text-align: center;
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.tg { background: var(--tg); box-shadow: 0 8px 24px rgba(34,158,217,0.45); }
+  .toast.err { background: #dc2626; box-shadow: 0 8px 24px rgba(220,38,38,0.45); }
 
   .hidden { display: none !important; }
 </style>
@@ -571,13 +464,15 @@
       <h1>📦 Аверс. Курьерство</h1>
       <p>Управление задачами курьера</p>
     </div>
-    <button class="btn-new" onclick="openForm()">＋ Новая заявка</button>
+    <div class="header-actions">
+      <button class="btn-tg-header" onclick="testTelegram()">📡 Тест связи</button>
+      <button class="btn-new" onclick="openForm()">＋ Новая заявка</button>
+    </div>
   </div>
 </header>
 
 <div class="container">
 
-  <!-- Статистика -->
   <div class="stats">
     <div class="stat-card"><div class="num" id="stat-total">0</div><div class="label">Всего</div></div>
     <div class="stat-card"><div class="num" id="stat-pending">0</div><div class="label">Ожидает</div></div>
@@ -585,10 +480,14 @@
     <div class="stat-card"><div class="num" id="stat-delivered">0</div><div class="label">Доставлено</div></div>
   </div>
 
-  <!-- Поиск и действия -->
   <div class="toolbar">
     <input type="text" class="search-box" id="search" placeholder="🔍 Поиск по адресу или грузу...">
     <div class="toolbar-actions">
+      <label class="autotg" id="autotg-label">
+        <input type="checkbox" id="autotg">
+        <span>🤖 Авто-ТГ</span>
+      </label>
+      <button class="icon-btn tg" title="Отправить все ожидающие в ТГ" onclick="sendAllPending()">📤</button>
       <button class="icon-btn" title="Экспорт JSON" onclick="exportJSON()">⬇</button>
       <button class="icon-btn" title="Импорт JSON" onclick="document.getElementById('import-file').click()">⬆</button>
       <button class="icon-btn" title="Очистить всё" onclick="clearAll()">🗑</button>
@@ -596,7 +495,6 @@
     </div>
   </div>
 
-  <!-- Фильтры -->
   <div class="filters" id="filters">
     <button class="filter-btn active" data-filter="all">Все <span class="cnt" id="c-all">0</span></button>
     <button class="filter-btn" data-filter="pending">Ожидает <span class="cnt" id="c-pending">0</span></button>
@@ -604,10 +502,8 @@
     <button class="filter-btn" data-filter="delivered">Доставлено <span class="cnt" id="c-delivered">0</span></button>
   </div>
 
-  <!-- Список задач -->
   <div class="task-list" id="task-list"></div>
 
-  <!-- График -->
   <div class="chart-section">
     <div class="section-title"><span>📊</span> Загрузка по дням (7 дней)</div>
     <div class="chart-wrap" id="chart"></div>
@@ -680,20 +576,106 @@
   </div>
 </div>
 
-<!-- Тост -->
 <div class="toast" id="toast"></div>
 
 <script>
 // ═══════════════════════════════════════════
+//  Telegram
+//  ⚠ В прототипе токен в открытом виде.
+//  Для боевой версии — вынести на сервер.
+// ═══════════════════════════════════════════
+const TG_TOKEN = '8824802274:AAFZkjpQ0m1ilqMCuVKdnFwI0LSoXp5-xT8';
+const TG_CHAT_ID = '750771887';
+const TG_API = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`;
+
+async function sendToTelegram(text) {
+  try {
+    const resp = await fetch(TG_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TG_CHAT_ID,
+        text: text,
+        parse_mode: 'HTML',
+        disable_web_page_preview: true
+      })
+    });
+    const data = await resp.json();
+    if (!data.ok) throw new Error(data.description || 'Telegram отклонил запрос');
+    return true;
+  } catch (err) {
+    console.error('[TG]', err);
+    toast('Ошибка ТГ: ' + err.message, 'err');
+    return false;
+  }
+}
+
+function formatTaskForTG(t) {
+  const statusLabel = { pending: '⏳ Ожидает', transit: '🚚 В пути', delivered: '✅ Доставлено' }[t.status];
+  const priorityLabel = { low: '🟢 Низкий', medium: '🟡 Средний', high: '🔴 Высокий' }[t.priority];
+  const dt = t.datetime
+    ? new Date(t.datetime).toLocaleString('ru-RU', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' })
+    : '—';
+
+  let msg = `<b>📦 Заявка курьеру</b>\n\n`;
+  msg += `<b>Адрес:</b> ${escapeHtml(t.address)}\n`;
+  if (t.payload) msg += `<b>Передать:</b> ${escapeHtml(t.payload)}\n`;
+  if (t.comment) msg += `<b>Комментарий:</b> ${escapeHtml(t.comment)}\n`;
+  msg += `<b>Время:</b> ${dt}\n`;
+  msg += `<b>Приоритет:</b> ${priorityLabel}\n`;
+  msg += `<b>Статус:</b> ${statusLabel}`;
+  return msg;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+async function sendTaskToTG(id) {
+  const t = tasks.find(x => x.id === id);
+  if (!t) return;
+  const ok = await sendToTelegram(formatTaskForTG(t));
+  if (ok) {
+    t.sentAt = new Date().toISOString();
+    save();
+    render();
+    toast('📤 Отправлено в Telegram', 'tg');
+  }
+}
+
+async function testTelegram() {
+  toast('📡 Проверяем связь...', 'tg');
+  const ok = await sendToTelegram('✅ <b>Аверс. Курьерство</b>\nПроверка связи прошла успешно.');
+  if (ok) toast('✅ Связь с Telegram есть', 'tg');
+}
+
+async function sendAllPending() {
+  const pending = tasks.filter(t => t.status === 'pending' && !t.sentAt);
+  if (pending.length === 0) { toast('Нет новых заявок для отправки'); return; }
+  let sent = 0;
+  for (const t of pending) {
+    const ok = await sendToTelegram(formatTaskForTG(t));
+    if (ok) { t.sentAt = new Date().toISOString(); sent++; }
+    await new Promise(r => setTimeout(r, 400)); // антифлуд Telegram
+  }
+  save();
+  render();
+  if (sent > 0) toast(`📤 Отправлено: ${sent}`, 'tg');
+}
+
+// ═══════════════════════════════════════════
 //  Данные
 // ═══════════════════════════════════════════
 const STORAGE_KEY = 'avers_courier_tasks';
+const SETTINGS_KEY = 'avers_courier_settings';
 let tasks = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+let settings = JSON.parse(localStorage.getItem(SETTINGS_KEY)) || { autoTG: false };
 let currentFilter = 'all';
 let currentSearch = '';
 let photoTargetId = null;
 
 function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks)); }
+function saveSettings() { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
 
 // ═══════════════════════════════════════════
@@ -785,6 +767,7 @@ function renderList() {
     const dt = t.datetime ? new Date(t.datetime).toLocaleString('ru-RU', {
       day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
     }) : '—';
+    const sentBadge = t.sentAt ? `<span class="pill sent" title="Отправлено ${new Date(t.sentAt).toLocaleString('ru-RU')}">📤 Отправлено</span>` : '';
 
     return `
       <div class="task-card status-${t.status}" data-id="${t.id}">
@@ -795,6 +778,7 @@ function renderList() {
           <div class="task-meta">
             <span class="pill">🕐 ${dt}</span>
             <span class="pill ${priorityClass}">${priorityLabel}</span>
+            ${sentBadge}
           </div>
           ${t.photo ? `<div class="task-photo" onclick="openModal('${t.id}')"><img src="${t.photo}" alt="Фото"></div>` : ''}
         </div>
@@ -804,6 +788,7 @@ function renderList() {
             ${t.status === 'pending' ? `<button class="btn btn-outline btn-sm" onclick="setStatus('${t.id}','transit')">🚚 В путь</button>` : ''}
             ${t.status === 'transit' ? `<button class="btn btn-success btn-sm" onclick="setStatus('${t.id}','delivered')">✅ Доставлено</button>` : ''}
             ${t.status === 'delivered' ? `<button class="btn btn-outline btn-sm" onclick="setStatus('${t.id}','pending')">↩ Вернуть</button>` : ''}
+            <button class="btn btn-tg btn-sm" title="Отправить в Telegram" onclick="sendTaskToTG('${t.id}')">📤 ТГ</button>
             <button class="btn btn-outline btn-sm" onclick="document.getElementById('photo-${t.id}').click()">📷</button>
             <input type="file" id="photo-${t.id}" accept="image/*" capture="environment" class="hidden" onchange="attachPhoto('${t.id}', event)">
             <button class="btn btn-danger btn-sm" onclick="deleteTask('${t.id}')">✕</button>
@@ -841,7 +826,6 @@ function closeModal() {
   photoTargetId = null;
 }
 
-// закрытие по клику на фон
 document.querySelectorAll('.modal-overlay').forEach(ov => {
   ov.addEventListener('click', e => {
     if (e.target === ov) {
@@ -852,7 +836,6 @@ document.querySelectorAll('.modal-overlay').forEach(ov => {
   });
 });
 
-// Esc закрывает
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     document.getElementById('form-modal').classList.remove('open');
@@ -865,7 +848,7 @@ document.addEventListener('keydown', e => {
 // ═══════════════════════════════════════════
 function addTask() {
   const address = document.getElementById('f-address').value.trim();
-  if (!address) { toast('Укажи адрес'); return; }
+  if (!address) { toast('Укажи адрес', 'err'); return; }
   const task = {
     id: uid(),
     address,
@@ -875,26 +858,24 @@ function addTask() {
     comment: document.getElementById('f-comment').value.trim(),
     photo: '',
     status: 'pending',
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    sentAt: null
   };
   const file = document.getElementById('f-photo').files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = e => {
-      task.photo = e.target.result;
-      tasks.push(task);
-      save();
-      render();
-      closeForm();
-      toast('Заявка добавлена');
-    };
-    reader.readAsDataURL(file);
-  } else {
+  const finish = () => {
     tasks.push(task);
     save();
     render();
     closeForm();
     toast('Заявка добавлена');
+    if (settings.autoTG) sendTaskToTG(task.id);
+  };
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = e => { task.photo = e.target.result; finish(); };
+    reader.readAsDataURL(file);
+  } else {
+    finish();
   }
 }
 
@@ -912,6 +893,12 @@ function setStatus(id, status) {
   save();
   render();
   toast(status === 'transit' ? '🚚 В пути' : status === 'delivered' ? '✅ Доставлено' : '↩ Возвращено');
+
+  if (settings.autoTG && (status === 'transit' || status === 'delivered')) {
+    const emoji = status === 'transit' ? '🚚' : '✅';
+    const label = status === 'transit' ? 'Курьер в пути' : 'Доставлено';
+    sendToTelegram(`${emoji} <b>${label}</b>\n📍 ${escapeHtml(t.address)}\n📦 ${escapeHtml(t.payload || '—')}`);
+  }
 }
 
 function deleteTask(id) {
@@ -983,12 +970,26 @@ function importJSON(event) {
       render();
       toast(`Импортировано ${data.length}`);
     } catch (err) {
-      toast('Ошибка импорта: ' + err.message);
+      toast('Ошибка импорта: ' + err.message, 'err');
     }
   };
   reader.readAsText(file);
   event.target.value = '';
 }
+
+// ═══════════════════════════════════════════
+//  Настройки: авто-ТГ
+// ═══════════════════════════════════════════
+const autotgCb = document.getElementById('autotg');
+const autotgLabel = document.getElementById('autotg-label');
+autotgCb.checked = settings.autoTG;
+autotgLabel.classList.toggle('on', settings.autoTG);
+autotgCb.addEventListener('change', e => {
+  settings.autoTG = e.target.checked;
+  saveSettings();
+  autotgLabel.classList.toggle('on', settings.autoTG);
+  toast(settings.autoTG ? '🤖 Авто-ТГ включён' : 'Авто-ТГ выключен', 'tg');
+});
 
 // ═══════════════════════════════════════════
 //  Фильтры и поиск
@@ -1011,12 +1012,12 @@ document.getElementById('search').addEventListener('input', e => {
 //  Тост
 // ═══════════════════════════════════════════
 let toastTimer;
-function toast(msg) {
+function toast(msg, type = '') {
   const el = document.getElementById('toast');
   el.textContent = msg;
-  el.classList.add('show');
+  el.className = 'toast show' + (type ? ' ' + type : '');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+  toastTimer = setTimeout(() => el.className = 'toast' + (type ? ' ' + type : ''), 2600);
 }
 
 // ═══════════════════════════════════════════
